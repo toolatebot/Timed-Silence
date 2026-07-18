@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import android.util.Log
 import de.felixnuesse.timedsilence.Constants
 import de.felixnuesse.timedsilence.extensions.TAG
+import timber.log.Timber
 
 
 /**
@@ -51,19 +52,19 @@ class WifiHandler {
             val networkInfo = connManager.activeNetworkInfo
             if (networkInfo != null) {
                 if (networkInfo.isConnected) {
-                    Log.d(TAG(), "Wifimanager: networkInfo is connected")
+                    Timber.tag(TAG()).d("Wifimanager: networkInfo is connected")
 
                     val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as android.net.wifi.WifiManager
                     val connectionInfo = wifiManager.connectionInfo
                     if (connectionInfo != null && connectionInfo.ssid != "") {
                         ssid = connectionInfo.ssid
 
-                        Log.d(TAG(), "Wifimanager: non blank, non null ssid")
+                        Timber.tag(TAG()).d("Wifimanager: non blank, non null ssid")
                     }
                 }
             }
 
-            Log.d(TAG(), "Wifimanager: Queried current ssid: $ssid")
+            Timber.tag(TAG()).d("Wifimanager: Queried current ssid: $ssid")
             return ssid
         }
 

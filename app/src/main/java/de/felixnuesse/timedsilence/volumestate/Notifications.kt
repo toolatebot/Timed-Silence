@@ -1,10 +1,8 @@
 package de.felixnuesse.timedsilence.volumestate
 
 
-import android.app.NotificationManager
 import android.content.Context
 import android.service.notification.StatusBarNotification
-import android.util.Log
 import de.felixnuesse.timedsilence.Constants
 import de.felixnuesse.timedsilence.extensions.TAG
 import de.felixnuesse.timedsilence.handler.PreferencesManager
@@ -13,6 +11,7 @@ import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SET
 import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.isFirstLouder
 import de.felixnuesse.timedsilence.model.database.DatabaseHandler
 import de.felixnuesse.timedsilence.receiver.NotificationListener
+import timber.log.Timber
 
 
 open class Notifications(private var mContext: Context): DeterministicCalculationInterface() {
@@ -40,12 +39,12 @@ open class Notifications(private var mContext: Context): DeterministicCalculatio
             }
         }
 
-        Log.e(TAG(), "Size: ${list.size}")
+        Timber.tag(TAG()).e("Size: ${list.size}")
         return list
     }
 
     private fun handleNotification(notification: StatusBarNotification): VolumeState? {
-        Log.e(TAG(), "Size: ${notification.notification}")
+        Timber.tag(TAG()).e("Size: ${notification.notification}")
         val toSearch =  notification.notification.extras.toString()+notification.notification.toString()+notification.toString()
 
         mDB.getKeywords().forEach {

@@ -3,7 +3,6 @@ package de.felixnuesse.timedsilence.volumestate.calendar
 import android.content.Context
 import android.net.Uri
 import android.provider.CalendarContract
-import android.util.Log
 import de.felixnuesse.timedsilence.extensions.TAG
 import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SETTING_SILENT
 import de.felixnuesse.timedsilence.model.data.CalendarObject
@@ -11,6 +10,7 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import de.felixnuesse.timedsilence.model.calendar.SettingsCalendar
 import de.felixnuesse.timedsilence.util.PermissionManager
+import timber.log.Timber
 
 
 class DeviceCalendar(private var mContext: Context) {
@@ -110,7 +110,7 @@ class DeviceCalendar(private var mContext: Context) {
                     cursor.moveToNext()
                 }
             } else {
-                Log.e(TAG(), "CalendarHandler: No calendar found in the device")
+                Timber.tag(TAG()).e("CalendarHandler: No calendar found in the device")
             }
         }
         cursor?.close()

@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -20,11 +19,11 @@ import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SET
 import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SETTING_SILENT
 import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SETTING_VIBRATE
 import de.felixnuesse.timedsilence.model.data.CalendarObject
-import de.felixnuesse.timedsilence.model.data.KeywordObject
 import de.felixnuesse.timedsilence.util.SizeUtil
 import de.felixnuesse.timedsilence.util.VibrationUtil
 import de.felixnuesse.timedsilence.util.WindowUtils
 import de.felixnuesse.timedsilence.volumestate.calendar.DeviceCalendar
+import timber.log.Timber
 
 
 /**
@@ -131,17 +130,17 @@ class CalendarDialog(context: Context) : Dialog(context, R.style.AlertDialogCust
         rg.check(calHandler.getDeviceCalendars()[0].externalID.toInt())
 
         binding.calendarCancel.setOnClickListener {
-            Log.e(TAG(), "CalendarDialog: cancel!")
+            Timber.tag(TAG()).e("CalendarDialog: cancel!")
             this.cancel()
         }
 
         binding.calendarSave.setOnClickListener {
-            Log.e(TAG(), "CalendarDialog: save!")
+            Timber.tag(TAG()).e("CalendarDialog: save!")
 
             val volId = getValueForVolumeRadioGroup();
             val calId = getValueForCalendarRadioGroup();
-            Log.e(TAG(), "CalendarDialog: Volume: $volId")
-            Log.e(TAG(), "CalendarDialog: CalID:  $calId")
+            Timber.tag(TAG()).e("CalendarDialog: Volume: $volId")
+            Timber.tag(TAG()).e("CalendarDialog: CalID:  $calId")
             val so = CalendarObject(
                 calendarObject?.id ?: 0,
                 calId,

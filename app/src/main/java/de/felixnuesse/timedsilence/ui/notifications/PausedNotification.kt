@@ -32,17 +32,20 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
+import de.felixnuesse.timedsilence.Constants
 import de.felixnuesse.timedsilence.R
 import de.felixnuesse.timedsilence.extensions.TAG
 import de.felixnuesse.timedsilence.handler.PreferencesManager
 import de.felixnuesse.timedsilence.handler.trigger.Trigger
+import de.felixnuesse.timedsilence.services.VolumeService
+import timber.log.Timber
 
 class PausedNotification : BroadcastReceiver(){
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        Log.e(TAG(), "PausedNotification: Recieved Intent!")
+        Timber.tag(TAG()).e("PausedNotification: Recieved Intent!")
 
         val action = intent?.action
         if(action == ACTION_END_PAUSE_AND_CHECK){
@@ -52,8 +55,9 @@ class PausedNotification : BroadcastReceiver(){
             }
         }
 
-        if(action == ACTION_END_PAUSE || action == ACTION_END_PAUSE_AND_CHECK){
+        if(action == ACTION_END_PAUSE){
             context?.let {
+                Timber.tag(TAG()).d("PausedNotification: Resuming without immediate check")
                 Trigger(it).createAlarmIntime()
                 Trigger(it).checkIfNextAlarmExists()
             }
@@ -66,7 +70,7 @@ class PausedNotification : BroadcastReceiver(){
         private const val NOTIFICATION_ID = 498
 
         fun show(context: Context){
-            Log.e(TAG(), "PausedNotification: Show Notification")
+            Timber.tag(TAG()).e("PausedNotification: Show Notification")
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             if(PreferencesManager(context).shouldShowNotification()){
@@ -122,7 +126,7 @@ class PausedNotification : BroadcastReceiver(){
         }
 
         fun cancelNotification(context: Context) {
-            Log.e(TAG(), "PausedNotification: Cancel Notification")
+            Timber.tag(TAG()).e("PausedNotification: Cancel Notification")
             var notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.cancel(NOTIFICATION_ID)
         }

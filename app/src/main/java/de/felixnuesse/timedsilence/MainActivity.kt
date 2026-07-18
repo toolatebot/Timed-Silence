@@ -34,23 +34,19 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.PorterDuff
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.format.DateFormat
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
@@ -75,9 +71,11 @@ import de.felixnuesse.timedsilence.handler.trigger.Trigger
 import de.felixnuesse.timedsilence.handler.volume.VolumeHandler
 import de.felixnuesse.timedsilence.services.`interface`.TimerInterface
 import de.felixnuesse.timedsilence.util.BluetoothUtil
+import de.felixnuesse.timedsilence.util.LoggingUtils
 import de.felixnuesse.timedsilence.util.PermissionManager
 import de.felixnuesse.timedsilence.util.VibrationUtil
 import de.felixnuesse.timedsilence.volumestate.StateGenerator
+import timber.log.Timber
 
 import java.util.*
 
@@ -95,6 +93,7 @@ class MainActivity : AppCompatActivity(), TimerInterface {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        LoggingUtils.prepareTimber(this)
 
         val sharedPref = applicationContext.getSharedPreferences(INTRO_PREFERENCES, Context.MODE_PRIVATE)
         if (!sharedPref.getBoolean(getString(R.string.pref_key_intro_v1_0_0), false)) {
@@ -125,7 +124,7 @@ class MainActivity : AppCompatActivity(), TimerInterface {
         //it plays a sound after the volume has changed to loud. Therefore it seems to be the main button who makes the sound
         binding.buttonButtonsoundFix.isSoundEffectsEnabled = true
         binding.buttonButtonsoundFix.setOnClickListener {
-            Log.e(TAG(), "MainAcitivity: HiddenButton: PerformClick to make sound")
+            Timber.tag(TAG()).e("MainAcitivity: HiddenButton: PerformClick to make sound")
         }
 
         binding.fab.setOnClickListener {
@@ -210,7 +209,8 @@ class MainActivity : AppCompatActivity(), TimerInterface {
         }
 
         var index = 0L
-        messages.forEach { it ->
+        messages.forEach {
+            Timber.tag(TAG()).w("Missing Permission: $it")
             handler.postDelayed(
                 {
                     Toast.makeText(localContext, it, Toast.LENGTH_LONG).show()
@@ -365,7 +365,7 @@ class MainActivity : AppCompatActivity(), TimerInterface {
 
 
     private fun buttonState() {
-        Log.e(TAG(), "Main: ButtonStartCheck: State: $button_check")
+        Timber.tag(TAG()).e("Main: ButtonStartCheck: State: $button_check")
 
         //Todo remove dummy textview
         if (mTrigger.checkIfNextAlarmExists()) {
@@ -383,7 +383,7 @@ class MainActivity : AppCompatActivity(), TimerInterface {
 
     private fun setHandlerState() {
 
-        Log.e(TAG(), "Main: setHandlerState: State: $button_check")
+        Timber.tag(TAG()).e("Main: setHandlerState: State: $button_check")
 
         if (button_check == getString(R.string.timecheck_start)) {
             mTrigger.createAlarmIntime()

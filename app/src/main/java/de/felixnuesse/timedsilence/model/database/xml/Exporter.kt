@@ -3,7 +3,6 @@ package de.felixnuesse.timedintenttrigger.database.xml
 import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import de.felixnuesse.timedsilence.R
 import de.felixnuesse.timedsilence.extensions.TAG
@@ -11,6 +10,7 @@ import de.felixnuesse.timedsilence.handler.PreferencesManager
 import de.felixnuesse.timedsilence.model.database.AppDataStructure
 import de.felixnuesse.timedsilence.model.database.DatabaseHandler
 import de.felixnuesse.timedsilence.util.DateUtil
+import timber.log.Timber
 import java.io.*
 import java.util.*
 
@@ -53,7 +53,7 @@ class Exporter(private var mActivity: Activity) {
     private val mDateString = DateUtil.getDate(Date().time, "yyyy.MM.dd")
 
     fun export() {
-        Log.e(TAG(), "Export!")
+        Timber.tag(TAG()).e("Export!")
 
         val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
@@ -74,7 +74,7 @@ class Exporter(private var mActivity: Activity) {
                     try {
                         val outputStream = mActivity.contentResolver.openOutputStream(treeUri)
                         val content = create()
-                        Log.e(TAG(), content)
+                        Timber.tag(TAG()).e(content)
                         outputStream?.write(content.toByteArray())
                         outputStream?.close()
                         Toast.makeText(mActivity, "Write file successfully", Toast.LENGTH_SHORT).show()

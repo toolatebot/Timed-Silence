@@ -8,12 +8,11 @@ import android.content.Context.BLUETOOTH_SERVICE
 import android.media.AudioDeviceInfo
 import android.media.AudioManager
 import android.os.Build
-import android.util.Log
 import de.felixnuesse.timedsilence.extensions.TAG
-import de.felixnuesse.timedsilence.handler.volume.VolumeState
 import de.felixnuesse.timedsilence.model.data.BluetoothObject
 import de.felixnuesse.timedsilence.model.database.DatabaseHandler
 import de.felixnuesse.timedsilence.util.PermissionManager
+import timber.log.Timber
 import java.lang.reflect.Method
 
 
@@ -26,10 +25,10 @@ class HeadsetHandler {
 
             var isConnected = false
 
-            Log.d(TAG(), "Checking devices")
+            Timber.tag(TAG()).d("Checking devices")
             for (deviceInfo in audioManager!!.getDevices(AudioManager.GET_DEVICES_OUTPUTS)) {
 
-                Log.d(TAG(), "Devicetype: "+deviceInfo.type)
+                Timber.tag(TAG()).d("Devicetype: " + deviceInfo.type)
 
                 when (deviceInfo.type) {
                     AudioDeviceInfo.TYPE_WIRED_HEADPHONES -> isConnected = true
@@ -38,7 +37,7 @@ class HeadsetHandler {
                     AudioDeviceInfo.TYPE_BLUETOOTH_A2DP -> isConnected = true
                 }
             }
-            Log.d(TAG(), "Found Headset: $isConnected")
+            Timber.tag(TAG()).d("Found Headset: $isConnected")
             return isConnected
         }
 
@@ -79,8 +78,8 @@ class HeadsetHandler {
 
         fun getPairedDevicesWithDatabaseState(context: Context): ArrayList<BluetoothObject> {
 
-            var db = DatabaseHandler(context)
-            var result = arrayListOf<BluetoothObject>()
+            val db = DatabaseHandler(context)
+            val result = arrayListOf<BluetoothObject>()
 
             getPairedDevices(context).forEach { bl ->
                 val found = db.getBluetoothEntries().find { it.address ==  bl.address}
@@ -92,11 +91,11 @@ class HeadsetHandler {
         }
 
         fun getPairedDevicesWithChangesInVolume(context: Context): ArrayList<BluetoothObject> {
-            var result = arrayListOf<BluetoothObject>()
+            val result = arrayListOf<BluetoothObject>()
 
-            var pairedDevices = getPairedDevices(context)
+            val pairedDevices = getPairedDevices(context)
 
-            var db = DatabaseHandler(context)
+            val db = DatabaseHandler(context)
             db.getBluetoothEntries().forEach { bluetoothObject ->
                 pairedDevices.forEach {
                     if(it.address ==  bluetoothObject.address){

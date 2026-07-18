@@ -1,10 +1,10 @@
 package de.felixnuesse.timedsilence.dialogs
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.text.format.DateFormat
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -20,6 +20,7 @@ import de.felixnuesse.timedsilence.model.data.ScheduleObject
 import de.felixnuesse.timedsilence.ui.ScheduleListAdapter
 import de.felixnuesse.timedsilence.util.VibrationUtil
 import de.felixnuesse.timedsilence.util.WindowUtils
+import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -73,6 +74,7 @@ class ScheduleDialog(context: Context) : Dialog(context, R.style.AlertDialogCust
 
     private var state: Int = 0
 
+    @SuppressLint("LogNotTimber")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -119,11 +121,11 @@ class ScheduleDialog(context: Context) : Dialog(context, R.style.AlertDialogCust
         binding.scheduleTitleLayout.visibility = View.VISIBLE
 
         binding.scheduleNext.setOnClickListener {
-            Log.e(TAG(), "ScheduleDialog: next!")
+            Timber.tag(TAG()).e("ScheduleDialog: next!")
 
             val view = binding.scheduleDialogTitle
-            val imm: InputMethodManager? = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-            imm?.hideSoftInputFromWindow(view?.windowToken, 0)
+            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+            imm?.hideSoftInputFromWindow(view.windowToken, 0)
 
             hideAll()
             state++
@@ -131,7 +133,7 @@ class ScheduleDialog(context: Context) : Dialog(context, R.style.AlertDialogCust
         }
 
         binding.scheduleBack.setOnClickListener {
-            Log.e(TAG(), "ScheduleDialog: back!")
+            Timber.tag(TAG()).e("ScheduleDialog: back!")
 
             hideAll()
             state--
@@ -139,12 +141,12 @@ class ScheduleDialog(context: Context) : Dialog(context, R.style.AlertDialogCust
         }
 
         binding.scheduleCancel.setOnClickListener {
-            Log.e(TAG(), "ScheduleDialog: cancel!")
+            Timber.tag(TAG()).e("ScheduleDialog: cancel!")
             this.cancel()
         }
 
         binding.scheduleSave.setOnClickListener {
-            Log.e(TAG(), "ScheduleDialog: save!")
+            Timber.tag(TAG()).e("ScheduleDialog: save!")
 
             if (createNewSchedule) {
                 val so = ScheduleObject(

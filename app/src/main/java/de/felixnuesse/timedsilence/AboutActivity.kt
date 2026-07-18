@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import de.felixnuesse.timedsilence.databinding.ActivityAboutBinding
+import de.felixnuesse.timedsilence.util.LoggingUtils
 import java.util.Calendar
 
 
@@ -15,6 +16,7 @@ class AboutActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAboutBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        LoggingUtils.prepareTimber(this)
 
         binding = ActivityAboutBinding.inflate(layoutInflater)
         setContentView(binding.root)

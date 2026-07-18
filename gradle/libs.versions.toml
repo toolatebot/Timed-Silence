@@ -13,6 +13,8 @@ material = "1.13.0"
 preferenceKtx = "1.2.1"
 recyclerview = "1.4.0"
 room = "2.8.4"
+timber = "5.0.1"
+treessence = "1.1.2"
 workRuntimeKtx = "2.11.0"
 ksp = "2.2.20-2.0.3"
 
@@ -33,6 +35,8 @@ appintro = { module = "com.github.AppIntro:AppIntro", version.ref = "appintro" }
 balloon = { module = "com.github.skydoves:balloon", version.ref = "balloon" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+treessence = { module = "com.github.bastienpaulfr:Treessence", version.ref = "treessence" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

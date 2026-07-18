@@ -1,14 +1,14 @@
 package de.felixnuesse.timedsilence.receiver
 
-import android.os.Build
+import android.content.Intent
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
-import android.util.Log
-import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import de.felixnuesse.timedsilence.Constants
 import de.felixnuesse.timedsilence.extensions.TAG
 import de.felixnuesse.timedsilence.handler.PreferencesManager
-import de.felixnuesse.timedsilence.handler.volume.VolumeHandler
-import de.felixnuesse.timedsilence.volumestate.StateGenerator
+import de.felixnuesse.timedsilence.services.VolumeService
+import timber.log.Timber
 
 
 class NotificationListener : NotificationListenerService() {
@@ -55,7 +55,6 @@ class NotificationListener : NotificationListenerService() {
             return
         }
 
-        Log.e(TAG(), "NotificationListener: Posted or removed notification, check!")
-        VolumeHandler(this, "NotificationListener").setVolumeStateAndApply(StateGenerator(this).stateAt(System.currentTimeMillis()))
+        Timber.tag(TAG()).e("NotificationListener: Posted or removed notification, check!")
     }
 }

@@ -1,14 +1,14 @@
 package de.felixnuesse.timedsilence.extensions
 
-import android.util.Log
+import timber.log.Timber
 
 
 fun Any.e(message: String) {
-    Log.e(TAG(), message)
+    Timber.tag(TAG()).e(message)
 }
 fun Any.d(message: String) {
-    Log.d(TAG(), message)
+    Timber.tag(TAG()).d(message)
 }
 fun Any.i(message: String) {
-    Log.i(TAG(), message)
+    Timber.tag(TAG()).i(message)
 }

@@ -91,7 +91,8 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
     annotationProcessor(libs.androidx.room.compiler)
-
+    implementation (libs.timber)
+    implementation(libs.treessence)
 
     // ListenableFuture for PermissionManger for unused-app-persistence. Both are needed!
     // https://developer.android.com/develop/background-work/background-tasks/asynchronous/listenablefuture

@@ -30,8 +30,8 @@ package de.felixnuesse.timedsilence.handler.calculator
 
 import android.content.Context
 import android.location.LocationManager
-import android.util.Log
 import de.felixnuesse.timedsilence.extensions.TAG
+import timber.log.Timber
 
 class LocationHandler {
     companion object {
@@ -39,7 +39,7 @@ class LocationHandler {
             val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
             val result = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-            Log.d(TAG(), "LocationHandler: State: $result")
+            Timber.tag(TAG()).d("LocationHandler: State: $result")
 
             return result
         }

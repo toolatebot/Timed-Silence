@@ -19,6 +19,7 @@ import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SET
 import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SETTING_UNSET
 import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SETTING_VIBRATE
 import de.felixnuesse.timedsilence.util.WindowUtils
+import timber.log.Timber
 
 /**
  * Copyright (C) 2019  Felix Nüsse
@@ -81,7 +82,7 @@ class WifiDialog(context: Context) : Dialog(context, R.style.AlertDialogCustom) 
         binding.wifiSsidLayout.visibility = View.VISIBLE
 
         binding.wifiNext.setOnClickListener {
-            Log.e(TAG(), "WifiDialog: next!")
+            Timber.tag(TAG()).e("WifiDialog: next!")
 
             hideAll()
             state++
@@ -89,7 +90,7 @@ class WifiDialog(context: Context) : Dialog(context, R.style.AlertDialogCustom) 
         }
 
         binding.wifiBack.setOnClickListener {
-            Log.e(TAG(), "WifiDialog: back!")
+            Timber.tag(TAG()).e("WifiDialog: back!")
 
             hideAll()
             state--
@@ -97,12 +98,12 @@ class WifiDialog(context: Context) : Dialog(context, R.style.AlertDialogCustom) 
         }
 
         binding.wifiCancel.setOnClickListener {
-            Log.e(TAG(), "WifiDialog: cancel!")
+            Timber.tag(TAG()).e("WifiDialog: cancel!")
             this.cancel()
         }
 
         binding.wifiSave.setOnClickListener {
-            Log.e(TAG(), "WifiDialog: save!")
+            Timber.tag(TAG()).e("WifiDialog: save!")
 
             val volId = getValueForVolumeRadioGroup()
             val type = getValueForTypeRadioGroup()

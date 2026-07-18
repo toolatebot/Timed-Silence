@@ -3,11 +3,9 @@ package de.felixnuesse.timedsilence.volumestate.calendar
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import de.felixnuesse.timedsilence.util.DateUtil
 import java.util.*
 import kotlin.collections.ArrayList
-
 
 import android.provider.CalendarContract.Events.CALENDAR_ID
 import android.provider.CalendarContract.Events.TITLE
@@ -26,6 +24,7 @@ import de.felixnuesse.timedsilence.handler.PreferencesManager
 import de.felixnuesse.timedsilence.handler.volume.VolumeState
 import de.felixnuesse.timedsilence.model.data.CachedArrayList
 import de.felixnuesse.timedsilence.volumestate.DeterministicCalculationInterface
+import timber.log.Timber
 import java.time.ZoneId
 
 
@@ -67,7 +66,7 @@ open class Events(private var mContext: Context): DeterministicCalculationInterf
         )
 
         if (cursor == null) {
-            Log.e(TAG(),"readCalendarEvent: no results!")
+            Timber.tag(TAG()).e("readCalendarEvent: no results!")
             return ArrayList()
         }
 

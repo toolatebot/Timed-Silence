@@ -6,9 +6,9 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import de.felixnuesse.timedsilence.R
 import de.felixnuesse.timedsilence.extensions.TAG
+import timber.log.Timber
 
 
 /**
@@ -45,8 +45,8 @@ class ErrorNotifications {
         const val ERROR_CHANNEL_NAME="This channel will only be used to show erros in this app."
 
         fun cancelNotification(context: Context) {
-            Log.e(TAG(), "ErrorNotifications: Cancel Notification")
-            var notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            Timber.tag(TAG()).e("ErrorNotifications: Cancel Notification")
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.cancel(NOTIFICATION_ID)
         }
 

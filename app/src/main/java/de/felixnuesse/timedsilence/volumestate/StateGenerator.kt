@@ -1,7 +1,6 @@
 package de.felixnuesse.timedsilence.volumestate
 
 import android.content.Context
-import android.util.Log
 import de.felixnuesse.timedsilence.extensions.TAG
 import de.felixnuesse.timedsilence.handler.LogHandler
 import de.felixnuesse.timedsilence.handler.PreferencesManager
@@ -11,6 +10,7 @@ import de.felixnuesse.timedsilence.handler.volume.VolumeStateStateComparator
 import de.felixnuesse.timedsilence.util.DateUtil
 import de.felixnuesse.timedsilence.volumestate.calendar.Events
 import de.felixnuesse.timedsilence.volumestate.calendar.Keywords
+import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.Collections
@@ -44,7 +44,7 @@ class StateGenerator(private var mContext: Context) {
 
     fun states(): ArrayList<VolumeState> {
         val start = System.currentTimeMillis()
-        Log.e(TAG(), "Start-time: $start")
+        Timber.tag(TAG()).e("Start-time: $start")
 
         val stateList = arrayListOf<VolumeState>()
 
@@ -110,8 +110,8 @@ class StateGenerator(private var mContext: Context) {
         Collections.sort(linearList, VolumeStateStartComparator())
 
         val end = System.currentTimeMillis()
-        Log.e(TAG(), "Endtime: $end")
-        Log.e(TAG(), "Diff: ${end-start}ms")
+        Timber.tag(TAG()).e("Endtime: $end")
+        Timber.tag(TAG()).e("Diff: ${end - start}ms")
         return padSortedList(linearList)
     }
 

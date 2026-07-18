@@ -17,6 +17,7 @@ import de.felixnuesse.timedsilence.handler.calculator.WifiHandler
 import de.felixnuesse.timedsilence.model.data.WifiObject
 import de.felixnuesse.timedsilence.model.database.DatabaseHandler
 import de.felixnuesse.timedsilence.ui.WifiListAdapter
+import timber.log.Timber
 
 
 class WifiConnectedFragment : Fragment() {
@@ -43,7 +44,7 @@ class WifiConnectedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.buttonRequestWifiPermissions.setOnClickListener {
-            Log.e(TAG(), "WifiConnectedFragment: Request Location Permission!")
+            Timber.tag(TAG()).e("WifiConnectedFragment: Request Location Permission!")
             WifiHandler.requestPermissions(view.context as Activity)
             checkContainer()
         }

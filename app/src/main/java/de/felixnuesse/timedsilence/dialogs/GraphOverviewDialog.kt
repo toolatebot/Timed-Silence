@@ -3,7 +3,6 @@ package de.felixnuesse.timedsilence.dialogs
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +12,7 @@ import de.felixnuesse.timedsilence.extensions.TAG
 import de.felixnuesse.timedsilence.handler.volume.VolumeState
 import de.felixnuesse.timedsilence.ui.GraphOverviewAdapter
 import de.felixnuesse.timedsilence.util.WindowUtils
+import timber.log.Timber
 
 /**
  * Copyright (C) 2023  Felix Nüsse
@@ -64,10 +64,10 @@ class GraphOverviewDialog(context: Context, private var mStates: ArrayList<Volum
     }
 
     private fun setList() {
-        Log.e(TAG(), "States: ${mStates.size}")
+        Timber.tag(TAG()).e("States: ${mStates.size}")
 
-        var viewManager = LinearLayoutManager(binding.root.context)
-        var viewAdapter = GraphOverviewAdapter(mStates)
+        val viewManager = LinearLayoutManager(binding.root.context)
+        val viewAdapter = GraphOverviewAdapter(mStates)
 
         binding.states.apply {
             layoutManager = viewManager

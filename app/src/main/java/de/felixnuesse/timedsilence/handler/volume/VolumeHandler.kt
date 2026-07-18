@@ -31,7 +31,6 @@ package de.felixnuesse.timedsilence.handler.volume
 import android.app.NotificationManager
 import android.content.Context
 import android.media.AudioManager
-import android.util.Log
 import de.felixnuesse.timedsilence.Constants.Companion.REASON_MANUALLY_SET
 import de.felixnuesse.timedsilence.handler.LogHandler
 import de.felixnuesse.timedsilence.handler.PreferencesManager
@@ -42,10 +41,10 @@ import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SET
 import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SETTING_VIBRATE
 import de.felixnuesse.timedsilence.util.PermissionManager
 import de.felixnuesse.timedsilence.extensions.TAG
-import de.felixnuesse.timedsilence.model.database.room.LogDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import timber.log.Timber
 
 class VolumeHandler(private var mContext: Context, private var mInstanceContext: String) {
 
@@ -78,7 +77,7 @@ class VolumeHandler(private var mContext: Context, private var mInstanceContext:
     }
 
     private fun applySilent() {
-        Log.e(TAG(), "VolumeHandler - $mInstanceContext: Apply: Silent!")
+        Timber.tag(TAG()).e("VolumeHandler - $mInstanceContext: Apply: Silent!")
         val manager = mContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
 
@@ -95,7 +94,8 @@ class VolumeHandler(private var mContext: Context, private var mInstanceContext:
 
 
         if(mPreferencesManager.changeRingerVolume()){
-            Log.d(TAG(), "VolumeHandler - $mInstanceContext: Setting Ringer! This might be not what you want!")
+            Timber.tag(TAG())
+                .d("VolumeHandler - $mInstanceContext: Setting Ringer! This might be not what you want!")
             setStreamToPercent(
                 manager,
                 AudioManager.STREAM_RING,
@@ -114,7 +114,7 @@ class VolumeHandler(private var mContext: Context, private var mInstanceContext:
     }
 
     private fun applyLoud() {
-        Log.d(TAG(), "VolumeHandler - $mInstanceContext: Apply: Loud!")
+        Timber.tag(TAG()).d("VolumeHandler - $mInstanceContext: Apply: Loud!")
         val manager = mContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
         val mNotificationManager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
@@ -133,9 +133,10 @@ class VolumeHandler(private var mContext: Context, private var mInstanceContext:
             setMediaVolume(mediaVolume, manager)
         }
 
-        Log.d(TAG(), "VolumeHandler - $mInstanceContext: STREAM_MEDIA: $mediaVolume")
-        Log.d(TAG(), "VolumeHandler - $mInstanceContext: STREAM_ALARM: $alarmVolume")
-        Log.d(TAG(), "VolumeHandler - $mInstanceContext: STREAM_NOTIFICATION: $notifcationVolume")
+        Timber.tag(TAG()).d("VolumeHandler - $mInstanceContext: STREAM_MEDIA: $mediaVolume")
+        Timber.tag(TAG()).d("VolumeHandler - $mInstanceContext: STREAM_ALARM: $alarmVolume")
+        Timber.tag(TAG())
+            .d("VolumeHandler - $mInstanceContext: STREAM_NOTIFICATION: $notifcationVolume")
 
 
         setStreamToPercent(
@@ -151,7 +152,7 @@ class VolumeHandler(private var mContext: Context, private var mInstanceContext:
 
 
         // If we set the device to loud, this is exactly what we want.
-        Log.d(TAG(), "VolumeHandler - $mInstanceContext: STREAM_RING: $ringerVolume")
+        Timber.tag(TAG()).d("VolumeHandler - $mInstanceContext: STREAM_RING: $ringerVolume")
         setStreamToPercent(
             manager,
             AudioManager.STREAM_RING,
@@ -161,7 +162,7 @@ class VolumeHandler(private var mContext: Context, private var mInstanceContext:
     }
 
     private fun applyVibrate() {
-        Log.d(TAG(), "VolumeHandler - $mInstanceContext: Apply: Vibrate!")
+        Timber.tag(TAG()).d("VolumeHandler - $mInstanceContext: Apply: Vibrate!")
         val manager = mContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
         val mNotificationManager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
@@ -190,7 +191,8 @@ class VolumeHandler(private var mContext: Context, private var mInstanceContext:
         )
 
         if(mPreferencesManager.changeRingerVolume()){
-            Log.d(TAG(), "VolumeHandler - $mInstanceContext: Silencing Ringer! This might be not what you want!")
+            Timber.tag(TAG())
+                .d("VolumeHandler - $mInstanceContext: Silencing Ringer! This might be not what you want!")
             setStreamToPercent(
                 manager,
                 AudioManager.STREAM_RING,
@@ -208,11 +210,11 @@ class VolumeHandler(private var mContext: Context, private var mInstanceContext:
 
     private fun setMediaVolume(percentage: Int, manager: AudioManager){
 
-        Log.d(TAG(), "VolumeHandler - $mInstanceContext: Setting Audio Volume!")
+        Timber.tag(TAG()).d("VolumeHandler - $mInstanceContext: Setting Audio Volume!")
         val ignoreCheckWhenConnected = mPreferencesManager.checkIfHeadsetIsConnected()
 
         if(HeadsetHandler.headphonesConnected(mContext) && ignoreCheckWhenConnected){
-            Log.d(TAG(), "VolumeHandler - $mInstanceContext: Found headset, skipping...")
+            Timber.tag(TAG()).d("VolumeHandler - $mInstanceContext: Found headset, skipping...")
             return
         }
 
@@ -221,11 +223,11 @@ class VolumeHandler(private var mContext: Context, private var mInstanceContext:
             AudioManager.STREAM_MUSIC,
             percentage
         )
-        Log.d(TAG(), "VolumeHandler - $mInstanceContext: Mediavolume set.")
+        Timber.tag(TAG()).d("VolumeHandler - $mInstanceContext: Mediavolume set.")
     }
 
     fun isButtonClickAudible(): Boolean{
-        Log.d(TAG(), "VolumeHandler - $mInstanceContext: Check if Buttonclicks are audible")
+        Timber.tag(TAG()).d("VolumeHandler - $mInstanceContext: Check if Buttonclicks are audible")
         val manager = mContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         if(0>=manager.getStreamVolume(AudioManager.STREAM_RING)){
             return false
@@ -243,11 +245,12 @@ class VolumeHandler(private var mContext: Context, private var mInstanceContext:
         }
 
         if(!PermissionManager(mContext).grantedDoNotDisturbAndNotify()){
-            Log.d(TAG(), "VolumeHandler - $mInstanceContext: VolumeSetting: Do not disturb not granted! Not changing Volume!")
+            Timber.tag(TAG())
+                .d("VolumeHandler - $mInstanceContext: VolumeSetting: Do not disturb not granted! Not changing Volume!")
             return
         }
 
-        Log.d(TAG(), "VolumeHandler - $mInstanceContext: VolumeSetting: ${getVolume()}")
+        Timber.tag(TAG()).d("VolumeHandler - $mInstanceContext: VolumeSetting: ${getVolume()}")
         LogHandler.writeLog(mContext,"VolumeHandler - $mInstanceContext", "because applyVolume was called","${VolumeState.timeSettingToReadable(getVolume())} - ${volumeState.getReason()}")
 
         when (getVolume()) {
@@ -264,7 +267,8 @@ class VolumeHandler(private var mContext: Context, private var mInstanceContext:
                 LogHandler.writeLog(mContext,"VolumeHandler - $mInstanceContext", "because applyVolume was called","${VolumeState.timeSettingToReadable(TIME_SETTING_LOUD)} - ${volumeState.getReason()}")
             }
             else -> {
-                Log.d(TAG(), "VolumeHandler - $mInstanceContext: Apply: Nothing, because no volume was selecteds!")
+                Timber.tag(TAG())
+                    .d("VolumeHandler - $mInstanceContext: Apply: Nothing, because no volume was selecteds!")
                 LogHandler.writeLog(mContext,"VolumeHandler - $mInstanceContext", "because applyVolume was called","Nothing, because no volume was selected!")
             }
         }

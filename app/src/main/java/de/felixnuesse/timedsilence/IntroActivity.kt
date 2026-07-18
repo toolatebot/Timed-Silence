@@ -1,7 +1,6 @@
 package de.felixnuesse.timedsilence
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -14,6 +13,7 @@ import com.github.appintro.AppIntro
 import com.github.appintro.AppIntroFragment
 import de.felixnuesse.disky.ui.appintro.IdentifiableAppIntroFragment
 import de.felixnuesse.disky.ui.appintro.SlideLeaveInterface
+import de.felixnuesse.timedsilence.util.LoggingUtils
 import de.felixnuesse.timedsilence.util.PermissionManager
 import de.felixnuesse.timedsilence.util.PrepareDefaultsUtil
 
@@ -44,6 +44,7 @@ class IntroActivity : AppIntro(), SlideLeaveInterface {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        LoggingUtils.prepareTimber(this)
         // Make sure you don't call setContentView!
 
         setImmersiveMode()

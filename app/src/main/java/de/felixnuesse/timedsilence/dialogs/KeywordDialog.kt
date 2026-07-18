@@ -3,11 +3,9 @@ package de.felixnuesse.timedsilence.dialogs
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import de.felixnuesse.timedsilence.Constants
 import de.felixnuesse.timedsilence.R
 import de.felixnuesse.timedsilence.databinding.DialogKeywordBinding
 import de.felixnuesse.timedsilence.extensions.TAG
@@ -17,10 +15,10 @@ import de.felixnuesse.timedsilence.model.data.KeywordObject.Companion.ALL_CALEND
 
 import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SETTING_LOUD
 import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SETTING_SILENT
-import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SETTING_UNSET
 import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SETTING_VIBRATE
 import de.felixnuesse.timedsilence.util.VibrationUtil
 import de.felixnuesse.timedsilence.util.WindowUtils
+import timber.log.Timber
 
 /**
  * Copyright (C) 2021  Felix Nüsse
@@ -93,12 +91,12 @@ class KeywordDialog(context: Context) : Dialog(context, R.style.AlertDialogCusto
         binding.keywordDialogTitle.text = context.getText(R.string.keyword_add_new)
 
         binding.keywordCancel.setOnClickListener {
-            Log.e(TAG(), "KeywordDialog: cancel!")
+            Timber.tag(TAG()).e("KeywordDialog: cancel!")
             this.cancel()
         }
 
         binding.keywordSave.setOnClickListener {
-            Log.e(TAG(), "KeywordDialog: save!")
+            Timber.tag(TAG()).e("KeywordDialog: save!")
 
             val volId = getValueForVolumeRadioGroup()
             val keyword = KeywordObject(

@@ -10,6 +10,7 @@ import de.felixnuesse.timedintenttrigger.database.xml.Exporter
 import de.felixnuesse.timedintenttrigger.database.xml.Importer
 import de.felixnuesse.timedsilence.databinding.ActivitySettingsBinding
 import de.felixnuesse.timedsilence.fragments.settings.SelectorFragment
+import de.felixnuesse.timedsilence.util.LoggingUtils
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -25,6 +26,7 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        LoggingUtils.prepareTimber(this)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         openFragment(mCurrentFragment)

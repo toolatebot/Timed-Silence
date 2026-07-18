@@ -14,7 +14,6 @@ import de.felixnuesse.timedsilence.model.database.DatabaseInfo.Companion.SQL_CRE
 import de.felixnuesse.timedsilence.model.database.DatabaseInfo.Companion.SCHEDULE_TABLE
 import android.content.ContentValues
 import android.database.Cursor
-import android.util.Log
 import de.felixnuesse.timedsilence.extensions.TAG
 import de.felixnuesse.timedsilence.extensions.e
 import de.felixnuesse.timedsilence.model.data.*
@@ -48,6 +47,7 @@ import de.felixnuesse.timedsilence.model.database.DatabaseInfo.Companion.WIFI_SS
 import de.felixnuesse.timedsilence.model.database.DatabaseInfo.Companion.WIFI_TABLE
 import de.felixnuesse.timedsilence.model.database.DatabaseInfo.Companion.WIFI_TYPE
 import de.felixnuesse.timedsilence.model.database.DatabaseInfo.Companion.WIFI_VOL_MODE
+import timber.log.Timber
 import java.time.DayOfWeek
 
 
@@ -165,7 +165,7 @@ class DatabaseHandler (context: Context) : SQLiteOpenHelper(context, DATABASE_NA
         val selectionArgs = arrayOf<String>()
 
         // How you want the results sorted in the resulting Cursor
-        val sortOrder = SCHEDULE_ID + " ASC"
+        val sortOrder = "$SCHEDULE_ID ASC"
 
         val cursor = db.query(
             SCHEDULE_TABLE, // The table to query
@@ -221,10 +221,10 @@ class DatabaseHandler (context: Context) : SQLiteOpenHelper(context, DATABASE_NA
     fun getScheduleByID(id: Long): ScheduleObject {
         val db = readableDatabase
 
-        val selection = SCHEDULE_ID + " = ?"
+        val selection = "$SCHEDULE_ID = ?"
         val selectionArgs = arrayOf(id.toString())
 
-        val sortOrder = SCHEDULE_ID + " DESC"
+        val sortOrder = "$SCHEDULE_ID DESC"
 
 
         val cursor = db.query(
@@ -286,7 +286,7 @@ class DatabaseHandler (context: Context) : SQLiteOpenHelper(context, DATABASE_NA
     fun deleteScheduleEntry(id: Long): Int {
         val db = writableDatabase
         // Define 'where' part of query.
-        val selection = SCHEDULE_ID + " LIKE ?"
+        val selection = "$SCHEDULE_ID LIKE ?"
         // Specify arguments in placeholder order.
         val selectionArgs = arrayOf(id.toString())
 
@@ -371,7 +371,7 @@ class DatabaseHandler (context: Context) : SQLiteOpenHelper(context, DATABASE_NA
         db.update(
             SCHEDULE_TABLE,
             values,
-            SCHEDULE_ID + " = ?",
+            "$SCHEDULE_ID = ?",
             idofchangedobject
         )
 
@@ -463,7 +463,7 @@ class DatabaseHandler (context: Context) : SQLiteOpenHelper(context, DATABASE_NA
     fun deleteWifiEntry(id: Long): Int {
         val db = writableDatabase
         // Define 'where' part of query.
-        val selection = WIFI_ID + " LIKE ?"
+        val selection = "$WIFI_ID LIKE ?"
         // Specify arguments in placeholder order.
         val selectionArgs = arrayOf(id.toString())
 
@@ -546,7 +546,7 @@ class DatabaseHandler (context: Context) : SQLiteOpenHelper(context, DATABASE_NA
     fun deleteCalendarEntry(id: Long): Int {
         val db = writableDatabase
         // Define 'where' part of query.
-        val selection = CALENDAR_ID + " LIKE ?"
+        val selection = "$CALENDAR_ID LIKE ?"
         // Specify arguments in placeholder order.
         val selectionArgs = arrayOf(id.toString())
 
@@ -604,7 +604,7 @@ class DatabaseHandler (context: Context) : SQLiteOpenHelper(context, DATABASE_NA
         db.update(
             CALENDAR_TABLE,
             values,
-            CALENDAR_ID + " = ?",
+            "$CALENDAR_ID = ?",
             idofchangedobject
         )
 
@@ -697,7 +697,7 @@ class DatabaseHandler (context: Context) : SQLiteOpenHelper(context, DATABASE_NA
         db.update(
             KEYWORD_TABLE,
             values,
-            KEYWORD_ID + " = ?",
+            "$KEYWORD_ID = ?",
             idofchangedobject
         )
         db.close()
@@ -705,7 +705,7 @@ class DatabaseHandler (context: Context) : SQLiteOpenHelper(context, DATABASE_NA
 
     fun deleteKeyword(id: Long): Int {
         val db = writableDatabase
-        val selection = KEYWORD_ID + " LIKE ?"
+        val selection = "$KEYWORD_ID LIKE ?"
         val selectionArgs = arrayOf(id.toString())
         val retcode: Int = db.delete(KEYWORD_TABLE, selection, selectionArgs)
         db.close()
@@ -765,7 +765,7 @@ class DatabaseHandler (context: Context) : SQLiteOpenHelper(context, DATABASE_NA
     }
 
     fun deleteBluetoothDevice(macadress: String): Int {
-        Log.e(TAG(), "delete: $macadress")
+        Timber.tag(TAG()).e("delete: $macadress")
 
         val db = writableDatabase
         val selection = "$BLUETOOTH_MAC LIKE ?"

@@ -1,14 +1,10 @@
 package de.felixnuesse.timedsilence.handler
 
 import android.content.Context
-import android.os.Environment
-import android.util.Log
 import de.felixnuesse.timedsilence.util.DateUtil
+import timber.log.Timber
 import java.io.File
 import java.io.FileWriter
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 
 class LogHandler() {
@@ -20,7 +16,7 @@ class LogHandler() {
             val time = "${System.currentTimeMillis()}; $timestamp"
             val content = "$time [$who] - $why: $what"
 
-            Log.e("LogHandler", content)
+            Timber.tag("LogHandler").e(content)
             append(context, content, "log.txt")
         }
 
@@ -29,7 +25,7 @@ class LogHandler() {
             val timestamp = DateUtil.getDateFormatted("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
             val time = "${System.currentTimeMillis()}; $timestamp"
 
-            Log.e("DebugLogHandler", content)
+            Timber.tag("DebugLogHandler").e(content)
             append(context, content, "$time-$who.txt")
         }
 

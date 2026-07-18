@@ -1,6 +1,5 @@
 package de.felixnuesse.disky.ui.appintro
 
-import android.util.Log
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
@@ -8,6 +7,7 @@ import com.github.appintro.AppIntroBaseFragment
 import com.github.appintro.AppIntroFragment
 import com.github.appintro.SlidePolicy
 import com.github.appintro.model.SliderPage
+import timber.log.Timber
 
 class IdentifiableAppIntroFragment : AppIntroBaseFragment(), SlidePolicy {
 
@@ -18,7 +18,7 @@ class IdentifiableAppIntroFragment : AppIntroBaseFragment(), SlidePolicy {
         get() = slideLeaveCallback?.allowSlideLeave(slideId) ?: true
 
     override fun onUserIllegallyRequestedNextPage() {
-        Log.e("tag()", "req ill $slideId")
+        Timber.tag("tag()").e("req ill $slideId")
         slideLeaveCallback?.onSlideLeavePrevented(slideId)
     }
 

@@ -12,7 +12,6 @@ import android.content.Context
 import android.content.Context.POWER_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
@@ -25,6 +24,7 @@ import androidx.core.content.UnusedAppRestrictionsConstants.*
 import de.felixnuesse.timedsilence.Constants
 import de.felixnuesse.timedsilence.R
 import de.felixnuesse.timedsilence.ui.notifications.ErrorNotifications
+import androidx.core.net.toUri
 
 
 class PermissionManager(private var mContext: Context) {
@@ -155,18 +155,20 @@ class PermissionManager(private var mContext: Context) {
 
     fun requestDoNotDisturb() {
         val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
+        // todo: bad practise!
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         mContext.startActivity(intent)
     }
 
     fun requestAlarms() {
         val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
-        intent.data = Uri.parse("package:" + mContext.packageName)
+        intent.data = ("package:" + mContext.packageName).toUri()
         mContext.startActivity(intent)
     }
 
     fun requestBatteryOptimizationException() {
         val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
-        intent.data = Uri.parse("package:" + mContext.packageName)
+        intent.data = ("package:" + mContext.packageName).toUri()
         mContext.startActivity(intent)
     }
 

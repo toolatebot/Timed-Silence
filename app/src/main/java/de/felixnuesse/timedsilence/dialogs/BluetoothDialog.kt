@@ -3,7 +3,6 @@ package de.felixnuesse.timedsilence.dialogs
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -20,6 +19,7 @@ import de.felixnuesse.timedsilence.model.data.BluetoothObject
 import de.felixnuesse.timedsilence.model.database.DatabaseHandler
 import de.felixnuesse.timedsilence.util.VibrationUtil
 import de.felixnuesse.timedsilence.util.WindowUtils
+import timber.log.Timber
 
 
 /**
@@ -107,7 +107,7 @@ class BluetoothDialog(context: Context) : Dialog(context, R.style.AlertDialogCus
         binding.bluetoothLayout.visibility = View.VISIBLE
 
         binding.bluetoothNext.setOnClickListener {
-            Log.e(TAG(), "BluetoothDialog: next!")
+            Timber.tag(TAG()).e("BluetoothDialog: next!")
 
             hideAll()
             state++
@@ -115,7 +115,7 @@ class BluetoothDialog(context: Context) : Dialog(context, R.style.AlertDialogCus
         }
 
         binding.bluetoothBack.setOnClickListener {
-            Log.e(TAG(), "BluetoothDialog: back!")
+            Timber.tag(TAG()).e("BluetoothDialog: back!")
 
             hideAll()
             state--
@@ -123,12 +123,12 @@ class BluetoothDialog(context: Context) : Dialog(context, R.style.AlertDialogCus
         }
 
         binding.bluetoothCancel.setOnClickListener {
-            Log.e(TAG(), "BluetoothDialog: cancel!")
+            Timber.tag(TAG()).e("BluetoothDialog: cancel!")
             this.cancel()
         }
 
         binding.bluetoothSave.setOnClickListener {
-            Log.e(TAG(), "BluetoothDialog: save!")
+            Timber.tag(TAG()).e("BluetoothDialog: save!")
 
             var device = BluetoothObject("", "")
             HeadsetHandler.getPairedDevices(context).forEach{

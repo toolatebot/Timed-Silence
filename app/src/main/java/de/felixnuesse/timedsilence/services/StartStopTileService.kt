@@ -4,10 +4,10 @@ package de.felixnuesse.timedsilence.services
 import android.graphics.drawable.Icon
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
-import android.util.Log
 import de.felixnuesse.timedsilence.R
 import de.felixnuesse.timedsilence.handler.trigger.Trigger
 import de.felixnuesse.timedsilence.extensions.TAG
+import timber.log.Timber
 
 /**
  * Copyright (C) 2019  Felix Nüsse
@@ -45,7 +45,7 @@ class StartStopTileService: TileService() {
 
     override fun onClick() {
         super.onClick()
-        Log.e(TAG(),"StartStopTileService: onClick")
+        Timber.tag(TAG()).e("StartStopTileService: onClick")
 
         val t = Trigger(this)
 
@@ -71,7 +71,7 @@ class StartStopTileService: TileService() {
 
     override fun onStartListening() {
         super.onStartListening()
-        Log.e(TAG(),"StartStopTileService: onStartListening")
+        Timber.tag(TAG()).e("StartStopTileService: onStartListening")
         updateTile()
 
         // Called when the Tile becomes visible
@@ -79,7 +79,7 @@ class StartStopTileService: TileService() {
 
     override fun onStopListening() {
         super.onStopListening()
-        Log.e(TAG(),"StartStopTileService: onStopListening")
+        Timber.tag(TAG()).e("StartStopTileService: onStopListening")
 
         // Called when the tile is no longer visible
     }
