@@ -16,21 +16,26 @@ import java.util.Locale
 
 class LoggingUtils {
     companion object {
+
+        private var KB = 1024
+        private var MB = 1024 * KB
         fun prepareTimber(context: Context) {
 
             val dateTime = LocalDateTime.now()
             val formatted = dateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
 
             val dir = "${context.getExternalFilesDir(null)}/ts-logging"
-            File(dir).mkdirs()
+            if(!File(dir).exists()) {
+                File(dir).mkdirs()
+            }
 
             Environment.getDataDirectory()
             val t = FileLoggerTree.Builder()
-                .withFileName("${formatted}-timedsilence%g.log")
+                .withFileName("${formatted}-timedsilence.log")
                 .withDirName(dir)
-                .withSizeLimit(20000)
+                .withSizeLimit(128*MB)
                 .withMinPriority(Log.VERBOSE)
-                .appendToFile(true)
+                //.appendToFile(true)
                 .withFormatter(formatter)
                 .build()
             Forest.plant(t)
@@ -52,7 +57,7 @@ class LoggingUtils {
                 }
 
                 return String.format(
-                    "%-23s %-5s %-20s %s",
+                    "%-23s %-5s %-20s %s\n",
                     time,
                     level,
                     tag ?: "",

@@ -1,9 +1,7 @@
 package de.felixnuesse.timedsilence.handler
 
 import android.content.Context
-import android.util.Log
 import androidx.preference.PreferenceManager
-import de.felixnuesse.timedsilence.MainActivity
 import de.felixnuesse.timedsilence.R
 
 class PreferencesManager(private var mContext: Context) {

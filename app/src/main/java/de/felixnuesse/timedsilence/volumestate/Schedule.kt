@@ -1,7 +1,6 @@
 package de.felixnuesse.timedsilence.volumestate
 
 import android.content.Context
-import android.util.Log
 import de.felixnuesse.timedsilence.Constants.Companion.REASON_TIME
 import de.felixnuesse.timedsilence.handler.volume.VolumeState
 import de.felixnuesse.timedsilence.model.database.DatabaseHandler

@@ -2,30 +2,27 @@ package de.felixnuesse.timedsilence.volumestate.calendar
 
 import android.content.ContentUris
 import android.content.Context
-import android.net.Uri
-import de.felixnuesse.timedsilence.util.DateUtil
-import java.util.*
-import kotlin.collections.ArrayList
-
-import android.provider.CalendarContract.Events.CALENDAR_ID
-import android.provider.CalendarContract.Events.TITLE
-import android.provider.CalendarContract.Events.DESCRIPTION
-import android.provider.CalendarContract.Events.DTSTART
-import android.provider.CalendarContract.Events.DTEND
 import android.provider.CalendarContract.Events.ALL_DAY
+import android.provider.CalendarContract.Events.AVAILABILITY
+import android.provider.CalendarContract.Events.CALENDAR_ID
+import android.provider.CalendarContract.Events.DESCRIPTION
+import android.provider.CalendarContract.Events.DTEND
+import android.provider.CalendarContract.Events.DTSTART
 import android.provider.CalendarContract.Events.DURATION
 import android.provider.CalendarContract.Events.EVENT_LOCATION
 import android.provider.CalendarContract.Events.STATUS
-import android.provider.CalendarContract.Events.AVAILABILITY
+import android.provider.CalendarContract.Events.TITLE
+import androidx.core.net.toUri
 import de.felixnuesse.timedsilence.Constants.Companion.REASON_CALENDAR
 import de.felixnuesse.timedsilence.extensions.TAG
-import de.felixnuesse.timedsilence.handler.LogHandler
 import de.felixnuesse.timedsilence.handler.PreferencesManager
 import de.felixnuesse.timedsilence.handler.volume.VolumeState
 import de.felixnuesse.timedsilence.model.data.CachedArrayList
+import de.felixnuesse.timedsilence.util.DateUtil
 import de.felixnuesse.timedsilence.volumestate.DeterministicCalculationInterface
 import timber.log.Timber
 import java.time.ZoneId
+import java.util.Collections
 
 
 open class Events(private var mContext: Context): DeterministicCalculationInterface() {
@@ -52,12 +49,12 @@ open class Events(private var mContext: Context): DeterministicCalculationInterf
         }
 
         // Construct the query with the desired date range.
-        val builder = Uri.parse("content://com.android.calendar/instances/when").buildUpon()
+        val builder = "content://com.android.calendar/instances/when".toUri().buildUpon()
 
         ContentUris.appendId(builder, DateUtil.getMidnight(date).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
         ContentUris.appendId(builder, DateUtil.getMidnight(date).plusHours(24).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
 
-        var cursor = mContext.contentResolver.query(
+        val cursor = mContext.contentResolver.query(
             builder.build(),
             getProjection(),
             null,
@@ -92,7 +89,7 @@ open class Events(private var mContext: Context): DeterministicCalculationInterf
                 }
 
             } catch (e: Exception) {
-                LogHandler.writeLog(mContext, "DeviceCalendar", "Exception!", "${e.toString()}");
+                Timber.tag(TAG()).e("DeviceCalendar - Exception! ${e.toString()}")
             }
             cursor.moveToNext()
         }

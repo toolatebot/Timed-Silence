@@ -2,7 +2,6 @@ package de.felixnuesse.timedsilence.volumestate
 
 import android.content.Context
 import de.felixnuesse.timedsilence.extensions.TAG
-import de.felixnuesse.timedsilence.handler.LogHandler
 import de.felixnuesse.timedsilence.handler.PreferencesManager
 import de.felixnuesse.timedsilence.handler.volume.VolumeState
 import de.felixnuesse.timedsilence.handler.volume.VolumeStateStartComparator
@@ -27,7 +26,7 @@ class StateGenerator(private var mContext: Context) {
     private var mNotifications = Notifications(mContext)
 
     init {
-        LogHandler.writeLog(mContext, TAG(), "instantiate","VolumeCalculator was now instantiated")
+        Timber.tag(TAG()).d("instantiate - VolumeCalculator was now instantiated")
         mEvents.date = mDate
         mKeywords.date = mDate
         mSchedules.date = mDate

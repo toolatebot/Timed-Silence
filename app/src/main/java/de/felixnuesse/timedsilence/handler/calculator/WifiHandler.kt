@@ -3,12 +3,10 @@ package de.felixnuesse.timedsilence.handler.calculator
 import android.Manifest
 import android.app.Activity
 import android.content.Context
-import android.net.ConnectivityManager
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import android.util.Log
-import de.felixnuesse.timedsilence.Constants
 import de.felixnuesse.timedsilence.extensions.TAG
 import timber.log.Timber
 

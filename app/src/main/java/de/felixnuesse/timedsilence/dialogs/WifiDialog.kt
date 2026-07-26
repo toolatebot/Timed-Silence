@@ -3,7 +3,6 @@ package de.felixnuesse.timedsilence.dialogs
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -12,12 +11,10 @@ import de.felixnuesse.timedsilence.R
 import de.felixnuesse.timedsilence.databinding.DialogWifiBinding
 import de.felixnuesse.timedsilence.extensions.TAG
 import de.felixnuesse.timedsilence.fragments.WifiConnectedFragment
-import de.felixnuesse.timedsilence.model.data.WifiObject
-
 import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SETTING_LOUD
 import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SETTING_SILENT
-import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SETTING_UNSET
 import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SETTING_VIBRATE
+import de.felixnuesse.timedsilence.model.data.WifiObject
 import de.felixnuesse.timedsilence.util.WindowUtils
 import timber.log.Timber
 

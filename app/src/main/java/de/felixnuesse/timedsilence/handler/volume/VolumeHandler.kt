@@ -31,8 +31,10 @@ package de.felixnuesse.timedsilence.handler.volume
 import android.app.NotificationManager
 import android.content.Context
 import android.media.AudioManager
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ProcessLifecycleOwner
 import de.felixnuesse.timedsilence.Constants.Companion.REASON_MANUALLY_SET
-import de.felixnuesse.timedsilence.handler.LogHandler
+import de.felixnuesse.timedsilence.extensions.TAG
 import de.felixnuesse.timedsilence.handler.PreferencesManager
 import de.felixnuesse.timedsilence.handler.calculator.HeadsetHandler
 import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SETTING_LOUD
@@ -40,7 +42,6 @@ import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SET
 import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SETTING_UNSET
 import de.felixnuesse.timedsilence.handler.volume.VolumeState.Companion.TIME_SETTING_VIBRATE
 import de.felixnuesse.timedsilence.util.PermissionManager
-import de.felixnuesse.timedsilence.extensions.TAG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -251,25 +252,25 @@ class VolumeHandler(private var mContext: Context, private var mInstanceContext:
         }
 
         Timber.tag(TAG()).d("VolumeHandler - $mInstanceContext: VolumeSetting: ${getVolume()}")
-        LogHandler.writeLog(mContext,"VolumeHandler - $mInstanceContext", "because applyVolume was called","${VolumeState.timeSettingToReadable(getVolume())} - ${volumeState.getReason()}")
+        Timber.tag(TAG()).d("VolumeHandler - $mInstanceContext", "because applyVolume was called","${VolumeState.timeSettingToReadable(getVolume())} - ${volumeState.getReason()}")
 
         when (getVolume()) {
             TIME_SETTING_SILENT -> {
                 applySilent()
-                LogHandler.writeLog(mContext,"VolumeHandler - $mInstanceContext", "because applyVolume was called","${VolumeState.timeSettingToReadable(TIME_SETTING_SILENT)} - ${volumeState.getReason()}")
+                Timber.tag(TAG()).d("VolumeHandler - $mInstanceContext", "because applyVolume was called","${VolumeState.timeSettingToReadable(TIME_SETTING_SILENT)} - ${volumeState.getReason()}")
             }
             TIME_SETTING_VIBRATE -> {
                 applyVibrate()
-                LogHandler.writeLog(mContext,"VolumeHandler - $mInstanceContext", "because applyVolume was called","${VolumeState.timeSettingToReadable(TIME_SETTING_VIBRATE)} - ${volumeState.getReason()}")
+                Timber.tag(TAG()).d("VolumeHandler - $mInstanceContext", "because applyVolume was called","${VolumeState.timeSettingToReadable(TIME_SETTING_VIBRATE)} - ${volumeState.getReason()}")
             }
             TIME_SETTING_LOUD -> {
                 applyLoud()
-                LogHandler.writeLog(mContext,"VolumeHandler - $mInstanceContext", "because applyVolume was called","${VolumeState.timeSettingToReadable(TIME_SETTING_LOUD)} - ${volumeState.getReason()}")
+                Timber.tag(TAG()).d("VolumeHandler - $mInstanceContext", "because applyVolume was called","${VolumeState.timeSettingToReadable(TIME_SETTING_LOUD)} - ${volumeState.getReason()}")
             }
             else -> {
                 Timber.tag(TAG())
                     .d("VolumeHandler - $mInstanceContext: Apply: Nothing, because no volume was selecteds!")
-                LogHandler.writeLog(mContext,"VolumeHandler - $mInstanceContext", "because applyVolume was called","Nothing, because no volume was selected!")
+                Timber.tag(TAG()).d("VolumeHandler - $mInstanceContext", "because applyVolume was called","Nothing, because no volume was selected!")
             }
         }
     }

@@ -8,22 +8,20 @@ import android.content.Context
 import android.content.Intent
 import de.felixnuesse.timedsilence.Constants
 import de.felixnuesse.timedsilence.R
-import de.felixnuesse.timedsilence.util.DateUtil
-import de.felixnuesse.timedsilence.handler.LogHandler
+import de.felixnuesse.timedsilence.extensions.TAG
 import de.felixnuesse.timedsilence.handler.PreferencesManager
 import de.felixnuesse.timedsilence.receiver.AlarmBroadcastReciever
 import de.felixnuesse.timedsilence.ui.notifications.ErrorNotifications
 import de.felixnuesse.timedsilence.ui.notifications.PausedNotification
+import de.felixnuesse.timedsilence.util.DateUtil
 import de.felixnuesse.timedsilence.volumestate.StateGenerator
-import java.lang.StringBuilder
+import timber.log.Timber
 import java.text.DateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 import java.util.Date
-import de.felixnuesse.timedsilence.extensions.TAG
-import timber.log.Timber
 
 
 /**
@@ -116,11 +114,11 @@ class Trigger(var mContext: Context) {
         Timber.tag(TAG()).e("Calculated time $calculatedChecktime")
         Timber.tag(TAG()).e("Calculated time ${DateUtil.getDate(calculatedChecktime)}")
 
-        LogHandler.writeLog(mContext, "TargetedAlarmHandler", "Create new Alarm", "$calculatedChecktime,${DateUtil.getDate(calculatedChecktime)}")
+        Timber.tag(TAG()).d("Create new Alarm: $calculatedChecktime,${DateUtil.getDate(calculatedChecktime)}")
 
         val s = StringBuilder()
         list.forEach { s.append(it.toString()+"\n") }
-        LogHandler.writeDebugFiles(mContext, "TargetedAlarmHandler", s.toString())
+        Timber.tag(TAG()).d("TargetedAlarmHandler: ${s.toString()}")
 
         val am = mContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val pi: PendingIntent? = createBroadcast(calculatedChecktime)
