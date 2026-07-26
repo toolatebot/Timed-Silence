@@ -24,7 +24,7 @@ class LoggingUtils {
             val dateTime = LocalDateTime.now()
             val formatted = dateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
 
-            val dir = "${context.getExternalFilesDir(null)}/ts-logging"
+            val dir = "${context.getExternalFilesDir(null)}"
             if(!File(dir).exists()) {
                 File(dir).mkdirs()
             }
